@@ -1,0 +1,30 @@
+# render.yaml — Render.com deployment config
+# Docs: https://render.com/docs/blueprint-spec
+
+services:
+  - type: web
+    name: finvest-pro-api
+    runtime: python
+    buildCommand: pip install --upgrade pip && pip install -r requirements.txt
+    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT --workers 2
+    envVars:
+      - key: PYTHON_VERSION
+        value: "3.11.9"
+      - key: DEBUG
+        value: "False"
+      - key: FIREBASE_CREDENTIALS_PATH
+        value: firebase/serviceAccountKey.json
+      - key: FIREBASE_PROJECT_ID
+        sync: false          # Set manually in Render dashboard
+      - key: CASHFREE_APP_ID
+        sync: false
+      - key: CASHFREE_SECRET_KEY
+        sync: false
+      - key: CASHFREE_BASE_URL
+        value: https://api.cashfree.com/pg
+      - key: NEWS_API_KEY
+        sync: false
+      - key: ANTHROPIC_API_KEY
+        sync: false
+      - key: DATABASE_URL
+        value: sqlite:///./finvest.db
